@@ -170,6 +170,16 @@ body {
 
 }
 
+@media (max-width: 900px) and (orientation: portrait) {
+  .heroImageArea {
+    display: none;
+  }
+
+  .heroCard {
+    padding-bottom: 60px;
+  }
+}
+
 @media (max-height: 500px) and (orientation: landscape) {
   .landingPage {
     padding: 12px;
