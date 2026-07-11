@@ -1,0 +1,19 @@
+# Claude Code tooling (local session config, not project source)
+.claude/
+
+# Python
+backend/venv/
+__pycache__/
+*.pyc
+backend/.env
+
+# Node (frontend has its own .gitignore too, this covers root-level scans)
+node_modules/
+dist/
+dist-ssr/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+*.local
