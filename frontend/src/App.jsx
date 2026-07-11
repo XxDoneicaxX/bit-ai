@@ -33,10 +33,41 @@ function App() {
     return saved ? JSON.parse(saved) : [starterMessage];
   });
 
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem("bit-theme");
+    if (saved === "light" || saved === "dark") return saved;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  });
+  const [themeIsManual, setThemeIsManual] = useState(() => {
+    const saved = localStorage.getItem("bit-theme");
+    return saved === "light" || saved === "dark";
+  });
+
   useEffect(() => {
     sessionStorage.setItem("bit-messages", JSON.stringify(messages));
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
+  useEffect(() => {
+    if (themeIsManual) return;
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (event) => setTheme(event.matches ? "dark" : "light");
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [themeIsManual]);
+
+  function toggleTheme() {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    setTheme(nextTheme);
+    setThemeIsManual(true);
+    localStorage.setItem("bit-theme", nextTheme);
+  }
 
   function openChat() {
     setIsTransitioning(true);
@@ -214,6 +245,15 @@ function App() {
               <img src={bitLogo} alt="Bit logo" className="logo" />
             </nav>
 
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="themeToggle landingThemeToggle"
+              aria-label="Toggle dark mode"
+            >
+              {theme === "dark" ? "☀️" : "🌙"}
+            </button>
+
             <div className="heroText">
               <h1>
                 Meet <span>Bit</span>,
@@ -247,7 +287,18 @@ function App() {
       {screen === "chat" && (
         <section className="chatPage">
           <aside className="chatSidebar">
-            <img src={bitLogo} alt="Bit logo" className="chatLogo" />
+            <div className="chatSidebarTop">
+              <img src={bitLogo} alt="Bit logo" className="chatLogo" />
+
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="themeToggle"
+                aria-label="Toggle dark mode"
+              >
+                {theme === "dark" ? "☀️" : "🌙"}
+              </button>
+            </div>
 
             <button onClick={newChat} className="newChatButton">
               + New Chat
