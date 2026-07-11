@@ -403,7 +403,7 @@ body {
 /* CHAT PAGE FIXES */
 
 .chatPage {
-  min-height: 100vh;
+  height: 100vh;
   padding: 28px;
   display: grid;
   grid-template-columns: 220px 1fr;
@@ -439,6 +439,7 @@ body {
 
 .messagesArea {
   flex: 1;
+  min-height: 0;
   padding: 34px 48px;
   overflow-y: auto;
   background: white;
