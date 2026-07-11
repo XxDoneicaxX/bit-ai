@@ -6,7 +6,7 @@ import bitIcon from "./assets/Bit Icon.png";
 import bitLogo from "./assets/BitLogo2.png";
 import { parseMessageContent, highlightPython } from "./messageParsing";
 
-const API_URL = "http://127.0.0.1:8000/chat";
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000/chat";
 
 function getGreeting() {
   const hour = new Date().getHours();

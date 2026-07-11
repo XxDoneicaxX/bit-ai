@@ -1,11 +1,15 @@
 import json
+import os
 
 import requests
+from dotenv import load_dotenv
 
 from app.prompt.bitPrompt import BIT_SYSTEM_PROMPT
 
+load_dotenv()
 
-OLLAMA_URL = "http://localhost:11434/api/chat"
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/chat")
+MODEL_NAME = os.getenv("OLLAMA_MODEL", "gemma4:e4b")
 
 
 def generate_response(messages):
@@ -29,7 +33,7 @@ def generate_response(messages):
     response = requests.post(
         OLLAMA_URL,
         json={
-            "model": "gemma4:e4b",
+            "model": MODEL_NAME,
             "messages": ollama_messages,
             "stream": True,
             "think": False,
